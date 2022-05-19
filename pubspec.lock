@@ -780,9 +780,11 @@ packages:
   mc_core_constants:
     dependency: "direct main"
     description:
-      path: "../mc_core_constants"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "3bbf1dac1a270a730bf99e9e66be493c61fadeaf"
+      url: "https://github.com/DonnC-Lab/mc_core_constants.git"
+    source: git
     version: "0.0.1"
   meta:
     dependency: transitive
@@ -801,16 +803,20 @@ packages:
   mini_campus_core_components:
     dependency: "direct main"
     description:
-      path: "../mini_campus_core_components"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: e71216da9375fc0e59c31a8bc1d978c73aa43970
+      url: "https://github.com/DonnC-Lab/mini_campus_core_components.git"
+    source: git
     version: "0.0.1"
   mini_campus_core_libs:
     dependency: "direct main"
     description:
-      path: "../mini_campus_core_libs"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: aacaabdcc519ef50c9d825e08eccc927495e305b
+      url: "https://github.com/DonnC-Lab/mini_campus_core_libs.git"
+    source: git
     version: "0.0.1"
   modal_bottom_sheet:
     dependency: "direct main"
