@@ -75,13 +75,19 @@ dependencies:
 
   # custom libs
   mini_campus_core_libs:
-    git: https://github.com/DonnC-Lab/mini_campus_core_libs.git
+    git: 
+      url: https://github.com/DonnC-Lab/mini_campus_core_libs.git 
+      ref: main
 
   mc_core_constants:
-    git: https://github.com/DonnC-Lab/mc_core_constants.git
+    git: 
+      url: https://github.com/DonnC-Lab/mc_core_constants.git
+      ref: main # branch name
 
   mini_campus_core_components:
-    git: https://github.com/DonnC-Lab/mini_campus_core_components.git
+    git:
+      url: https://github.com/DonnC-Lab/mini_campus_core_components.git
+      ref: main
 
 dev_dependencies:
   build_runner: null
