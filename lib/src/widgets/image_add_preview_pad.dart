@@ -2,10 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
-import 'package:mini_campus_core_components/mini_campus_core_components.dart';
-
-import '../index.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class ImageAddPreviewPad extends ConsumerWidget {
   const ImageAddPreviewPad({Key? key, this.title = 'Add Image'})
@@ -30,7 +27,7 @@ class ImageAddPreviewPad extends ConsumerWidget {
                 icon: const Icon(Icons.no_photography),
                 tooltip: 'reset image',
                 onPressed: () {
-                  ref.read(pickedImgProvider.notifier).state = null;
+                  ref.invalidate(pickedImgProvider);
                 },
               ),
               IconButton(
@@ -51,7 +48,7 @@ class ImageAddPreviewPad extends ConsumerWidget {
               height: 200,
               decoration: BoxDecoration(
                 color: _img == null
-                    ? greyTextShade.withOpacity(0.1)
+                    ? McAppColors.appGreyShadeColor.withOpacity(0.1)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(borderRadius),
               ),

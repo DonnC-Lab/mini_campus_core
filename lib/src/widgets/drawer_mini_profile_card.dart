@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
-
-import '../index.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class DrawerMiniProfileCard extends ConsumerWidget {
   const DrawerMiniProfileCard({Key? key}) : super(key: key);
@@ -14,6 +12,8 @@ class DrawerMiniProfileCard extends ConsumerWidget {
 
     final studentProfile = ref.watch(studentProvider);
 
+    final studentUni = ref.watch(studentUniProvider);
+
     final String profPic = studentProfile?.profilePicture ?? '';
 
     return Container(
@@ -21,7 +21,7 @@ class DrawerMiniProfileCard extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       decoration: BoxDecoration(
         color: themeMode == ThemeMode.light
-            ? greyTextShade.withOpacity(0.1)
+            ? McAppColors.appGreyShadeColor.withOpacity(0.1)
             : colorBtnBg(true, themeMode),
         borderRadius: BorderRadius.circular(10),
       ),
@@ -52,10 +52,15 @@ class DrawerMiniProfileCard extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  studentProfile.email.studentNumber.studentNumber
+                  getStudentNumberFromEmail(
+                    studentProfile.email,
+                    McUniEmailDomain.uniDomains
+                        .firstWhere((uni) => uni.university == studentUni),
+                  )!
+                      .studentNumber
                       .toUpperCase(),
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color: greyTextShade,
+                        color: McAppColors.appGreyShadeColor,
                         // fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w400,
                       ),

@@ -1,6 +1,17 @@
-import 'package:mc_core_constants/mc_core_constants.dart';
+// ignore_for_file: constant_identifier_names
 
 import '../index.dart';
+
+enum NotificationType {
+  NONE,
+  VIEW,
+  GENERAL,
+  MARKET,
+  LOSTFOUND,
+  REPORT,
+  LEARNING,
+  APPUPDATE,
+}
 
 class NotificationPayload {
   final NotificationType notificationType;

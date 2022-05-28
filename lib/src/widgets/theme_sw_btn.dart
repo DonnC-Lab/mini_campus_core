@@ -11,7 +11,6 @@ Widget themeSwitchButton({
     onTap: callback,
     child: Container(
       height: 50,
-      
       margin: const EdgeInsets.all(3.7),
       decoration: BoxDecoration(
         color: bgColor,
@@ -24,9 +23,10 @@ Widget themeSwitchButton({
           const SizedBox(width: 10),
           Text(
             title,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

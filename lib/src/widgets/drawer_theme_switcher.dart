@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
-
-import '../index.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class DrawerThemeSwitcher extends ConsumerWidget {
   const DrawerThemeSwitcher({Key? key}) : super(key: key);
@@ -15,7 +13,9 @@ class DrawerThemeSwitcher extends ConsumerWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: themeMode == ThemeMode.light ? bgColor : fieldDMFillText,
+        color: themeMode == ThemeMode.light
+            ? McAppColors.appBgColor
+            : McAppColors.appTextFieldFillColor,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Row(

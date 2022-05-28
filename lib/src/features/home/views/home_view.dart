@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mini_campus_core/src/index.dart';
 
-import '../../profile/views/detailed_profile_update.dart';
-
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({
     this.logoLightMode,
@@ -122,7 +120,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: const Text('Mini Campus'),
+          title: Text(ref.read(flavorConfigProvider)["appTitle"]),
           centerTitle: true,
           actions: [
             IconButton(

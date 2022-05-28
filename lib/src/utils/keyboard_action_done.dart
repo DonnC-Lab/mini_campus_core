@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 KeyboardActionsConfig BuildDoneKeyboardActionConfig({
   required BuildContext context,
@@ -22,7 +22,7 @@ KeyboardActionsConfig BuildDoneKeyboardActionConfig({
               child: Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Container(
-                  color: bluishColor,
+                  color: McAppColors.appMainColor,
                   padding: const EdgeInsets.all(8.0),
                   child: const Text(
                     "DONE",

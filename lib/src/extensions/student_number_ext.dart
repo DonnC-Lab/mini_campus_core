@@ -1,6 +1,6 @@
 // get student number from passed email
 
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mc_packages/index.dart';
 
 class StudentNumber {
   final String stringYear;
@@ -27,26 +27,38 @@ class StudentNumber {
       'StudentNumber(stringYear: $stringYear, intYear: $intYear, studentNumber: $studentNumber)';
 }
 
-extension GetStudentNumberFromEmail on String {
-  // TODO: consider different uni email domains
-  StudentNumber get studentNumber {
-    final studentNum = replaceAll(nustEmailDomain, '').trim();
+/// autocompute student number, part and enrollment year
+StudentNumber? getStudentNumberFromEmail(
+    String studentEmail, McUniEmailDomain uniDomain) {
+  // full uni student number
+  String? studentNumber;
 
-    return _computeSn(studentNum.toUpperCase());
+  // student auto computed enrollment year e.g 2019
+  int? _enrollmentYear;
+
+  // different logic tricks to auto get student number and enrollment year from student email
+  switch (uniDomain.university) {
+    case Uni.NUST:
+      studentNumber = studentEmail.replaceAll(uniDomain.domain, '').trim();
+      final _year = studentNumber.substring(2, 4).trim();
+      _enrollmentYear = int.tryParse('20$_year');
+      break;
+
+    // other supported unis
+    default:
   }
-}
 
-StudentNumber _computeSn(String studentNumber) {
+  if (studentNumber == null || _enrollmentYear == null) {
+    return null;
+  }
+
   StudentNumber sn = StudentNumber(studentNumber: studentNumber);
 
   try {
-    String _year = studentNumber.substring(2, 4).trim();
-    int _enrollment = int.parse('20$_year');
-
     // minus
     final today = DateTime.now().year;
 
-    int diff = today - _enrollment;
+    int diff = today - _enrollmentYear;
 
     String _studentY = '';
 

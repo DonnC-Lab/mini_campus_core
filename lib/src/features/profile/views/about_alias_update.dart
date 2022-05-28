@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mini_campus_core_components/mini_campus_core_components.dart';
+import 'package:mini_campus_core/mc_packages/index.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:relative_scale/relative_scale.dart';
-
-import 'package:mini_campus_core/mini_campus_core.dart';
 
 // ignore: non_constant_identifier_names
 void UpdateAboutAliasModal(

@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 final detaStorageProvider =
     ProviderFamily<DetaStorageRepository, DetaDriveInit>((ref, detaDriveInit) {
-  return DetaStorageRepository(detaDriveInit);
+  return DetaStorageRepository(ref.read, detaDriveInit);
 });
 
 final detaStorageFileDownloaderProvider =
     FutureProviderFamily<dynamic, DetaDriveInit>((ref, detaDriveInit) {
-  return DetaStorageRepository(detaDriveInit).download(detaDriveInit.filename!);
+  return DetaStorageRepository(ref.read, detaDriveInit)
+      .download(detaDriveInit.filename!);
 });
 
 class DetaStorageRepository {
@@ -17,11 +17,15 @@ class DetaStorageRepository {
 
   late final DetaRepository _detaRepository;
 
-  DetaStorageRepository(this.detaDriveInit)
-      : _detaRepository = DetaRepository(
+  final Reader _read;
+
+  DetaStorageRepository(
+    this._read,
+    this.detaDriveInit,
+  ) : _detaRepository = DetaRepository(
           driveName: detaDriveInit.drive,
           baseName: detaDriveInit.base,
-          detaBaseUrl: detaBaseUrl,
+          detaBaseUrl: _read(flavorConfigProvider)['detaBaseUrl'],
         );
 
   Future getAllFiles({

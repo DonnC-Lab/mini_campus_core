@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
 
 final studentStoreProvider = Provider((ref) {
   final appUser = ref.watch(fbAppUserProvider);
@@ -161,7 +159,11 @@ class FirestoreStudentService {
         faculty: '',
         departmentCode: '',
         createdOn: DateTime.now(),
-        studentNumber: appUser.email.studentNumber.studentNumber,
+        studentNumber: getStudentNumberFromEmail(
+          appUser.email,
+          McUniEmailDomain.uniDomains
+              .firstWhere((uni) => uni.university == read(studentUniProvider)),
+        )?.studentNumber,
       );
 
       return res;
@@ -178,7 +180,11 @@ class FirestoreStudentService {
         faculty: '',
         departmentCode: '',
         createdOn: DateTime.now(),
-        studentNumber: appUser.email.studentNumber.studentNumber,
+        studentNumber: getStudentNumberFromEmail(
+          appUser.email,
+          McUniEmailDomain.uniDomains
+              .firstWhere((uni) => uni.university == read(studentUniProvider)),
+        )?.studentNumber,
       );
 
       return null;

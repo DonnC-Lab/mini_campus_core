@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
-import 'package:mini_campus_core/src/index.dart';
-import 'package:mini_campus_core_components/mini_campus_core_components.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 final _selectedFacultyProvider = StateProvider<Faculty?>((_) => null);
 
@@ -38,6 +36,8 @@ class BasicProfileUpdateView extends ConsumerWidget {
     final dpt = ref.watch(_selectedDptProvider);
 
     final themeMode = ref.watch(themeNotifierProvider.notifier).state.value;
+
+    final studentUni = ref.watch(studentUniProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -118,7 +118,8 @@ class BasicProfileUpdateView extends ConsumerWidget {
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(context),
                           ]),
-                          items: faculties
+                          items: Faculty(uni: studentUni)
+                              .uniFaculties
                               .map(
                                 (e) => DropdownMenuItem(
                                   child: Text(e.name),

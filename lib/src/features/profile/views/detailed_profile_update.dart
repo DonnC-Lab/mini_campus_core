@@ -4,9 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
-import 'package:mini_campus_core_components/mini_campus_core_components.dart';
 
 import 'about_alias_update.dart';
 import 'profile_stats_card.dart';
@@ -62,84 +60,91 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: GestureDetector(
-                    onTap: !_isOwner
-                        ? null
-                        : () async {
-                            final imgSource =
-                                await ImageSourceSelector(context);
+                  child: AdvancedAvatar(
+                    size: 120,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: !_isOwner
+                            ? const SizedBox.shrink()
+                            : CircleAvatar(
+                                backgroundColor: Theme.of(context).cardColor,
+                                child: updatingProfile
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(12.0),
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : IconButton(
+                                        onPressed: !_isOwner
+                                            ? () {}
+                                            : () async {
+                                                final imgSource =
+                                                    await ImageSourceSelector(
+                                                        context);
 
-                            if (imgSource != null) {
-                              await customImgPicker(ref, imgSource);
+                                                if (imgSource != null) {
+                                                  await customImgPicker(
+                                                      ref, imgSource);
 
-                              // upload student img
-                              if (img != null) {
-                                setState(() {
-                                  updatingProfile = true;
-                                });
+                                                  // upload student img
+                                                  if (img != null) {
+                                                    setState(() {
+                                                      updatingProfile = true;
+                                                    });
 
-                                // upload img to cloud
-                                final String? imgUrl =
-                                    await storageApi.uploadMediaFile(
-                                        image: img.path,
-                                        path: CloudStoragePath.profilePicture(
-                                            student!.id!));
+                                                    // upload img to cloud
+                                                    final String? imgUrl =
+                                                        await storageApi.uploadMediaFile(
+                                                            image: img.path,
+                                                            path: CloudStoragePath
+                                                                .profilePicture(
+                                                                    student!
+                                                                        .id!));
 
-                                if (imgUrl != null) {
-                                  _dialog.showToast('profile image uploaded');
+                                                    if (imgUrl != null) {
+                                                      _dialog.showToast(
+                                                          'profile image uploaded');
 
-                                  // update profile pic
-                                  await studentService.updateStudent(
-                                      student.copyWith(profilePicture: imgUrl));
-                                } else {
-                                  _dialog.showToast(
-                                      'failed to upload profile image');
-                                }
+                                                      // update profile pic
+                                                      await studentService
+                                                          .updateStudent(
+                                                              student.copyWith(
+                                                                  profilePicture:
+                                                                      imgUrl));
+                                                    } else {
+                                                      _dialog.showToast(
+                                                          'failed to upload profile image');
+                                                    }
 
-                                // reset img provider
-                                ref.read(pickedImgProvider.notifier).state =
-                                    null;
-                              }
+                                                    // reset img provider
+                                                    ref
+                                                        .read(pickedImgProvider
+                                                            .notifier)
+                                                        .state = null;
+                                                  }
 
-                              setState(() {
-                                updatingProfile = false;
-                              });
-                            }
-                          },
-                    child: AdvancedAvatar(
-                      size: 120,
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: !_isOwner
-                              ? const SizedBox.shrink()
-                              : CircleAvatar(
-                                  backgroundColor: Theme.of(context).cardColor,
-                                  child: updatingProfile
-                                      ? const Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : IconButton(
-                                          onPressed: () {},
-                                          color: greyTextShade,
-                                          icon: const Icon(Icons.camera_alt),
-                                        ),
-                                ),
-                        ),
-                      ],
-                      decoration: BoxDecoration(
-                        color: bluishColor,
-                        borderRadius: BorderRadius.circular(100),
+                                                  setState(() {
+                                                    updatingProfile = false;
+                                                  });
+                                                }
+                                              },
+                                        color: McAppColors.appGreyShadeColor,
+                                        icon: const Icon(Icons.camera_alt),
+                                      ),
+                              ),
                       ),
-                      name: student?.name,
-                      child: profPic.isEmpty
-                          ? null
-                          : CircleAvatar(
-                              radius: 120,
-                              backgroundImage: NetworkImage(profPic),
-                            ),
+                    ],
+                    decoration: BoxDecoration(
+                      color: McAppColors.appMainColor,
+                      borderRadius: BorderRadius.circular(100),
                     ),
+                    name: student?.name,
+                    child: profPic.isEmpty
+                        ? null
+                        : CircleAvatar(
+                            radius: 120,
+                            backgroundImage: NetworkImage(profPic),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -180,7 +185,7 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                                   size: 17,
                                   color: _isOwner
                                       ? Theme.of(context).iconTheme.color
-                                      : greyTextShade,
+                                      : McAppColors.appGreyShadeColor,
                                 ),
                               ),
                             ],
@@ -193,7 +198,9 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                ?.copyWith(fontSize: 13, color: greyTextShade),
+                                ?.copyWith(
+                                    fontSize: 13,
+                                    color: McAppColors.appGreyShadeColor),
                           ),
                           const SizedBox(height: 10),
                           Align(
@@ -204,7 +211,8 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                                   .textTheme
                                   .subtitle2
                                   ?.copyWith(
-                                      fontSize: 11, color: greyTextShade),
+                                      fontSize: 11,
+                                      color: McAppColors.appGreyShadeColor),
                             ),
                           ),
                         ],

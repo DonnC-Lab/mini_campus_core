@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class CustomRoundedButton extends StatelessWidget {
   const CustomRoundedButton({
@@ -25,9 +25,13 @@ class CustomRoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: isOutlined ? bluishColorShade : bluishColor,
-        onPrimary: isOutlined ? bluishColor : bluishColorShade,
-        side: const BorderSide(color: bluishColor, width: 1.5),
+        primary: isOutlined
+            ? McAppColors.appMainShadeColor
+            : McAppColors.appMainColor,
+        onPrimary: isOutlined
+            ? McAppColors.appMainColor
+            : McAppColors.appMainShadeColor,
+        side: const BorderSide(color: McAppColors.appMainColor, width: 1.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius),
         ),
@@ -40,7 +44,7 @@ class CustomRoundedButton extends StatelessWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              // color: isOutlined ? bluishColor : bluishColorShade,
+              // color: isOutlined ? McAppColors.appMainColor : McAppColors.appMainShadeColor,
               color: Colors.white,
               fontWeight: fontWeight,
             ),

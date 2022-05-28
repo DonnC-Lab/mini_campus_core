@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
-
-import '../index.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 final exceptionHandlerProvider = Provider.family<CustomException, ExcHandler>(
     (ref, excHandler) => exceptionHandler(excHandler));

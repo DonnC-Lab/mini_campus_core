@@ -20,9 +20,11 @@ Future<void> customImgPicker(WidgetRef ref, bool isCamera) async {
 
     ref.read(pickedImgProvider.notifier).state = resultImg;
   }
+
   //
-  on Exception catch (e) {
+  catch (e) {
     error = e.toString();
+    ref.invalidate(pickedImgProvider);
     debugLogger(error, name: 'customImgPicker', error: e);
   }
 }

@@ -4,16 +4,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
 
 class ProfileCheckView extends ConsumerWidget {
   const ProfileCheckView({
     Key? key,
     required this.drawerModulePages,
+    this.flavorConfigs = const {},
   }) : super(key: key);
 
   final List<DrawerPage> drawerModulePages;
+  final Map<String, dynamic> flavorConfigs;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,6 +27,12 @@ class ProfileCheckView extends ConsumerWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               bool isProfileComplete = snapshot.data ?? false;
+
+              // set flavor config to shared provider
+              ref.read(flavorConfigProvider.notifier).state = flavorConfigs;
+
+              debugLogger(ref.watch(flavorConfigProvider),
+                  name: 'set flavor config');
 
               if (isProfileComplete) {
                 ref.read(fbMsgProvider).getToken().then(
@@ -63,14 +70,14 @@ class ProfileCheckView extends ConsumerWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
                       children: [
-                        // todo, a bit of humour, put random funny quotes
+                        // TODO: a bit of humour, put random funny quotes
                         Text(
                           'just a sec, i forgot to check something..',
                           style:
                               Theme.of(context).textTheme.subtitle1?.copyWith(
                                     fontSize: 13,
                                     fontStyle: FontStyle.italic,
-                                    color: greyTextShade,
+                                    color: McAppColors.appGreyShadeColor,
                                   ),
                         ),
                         const SizedBox(height: 20),

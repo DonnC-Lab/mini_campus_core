@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class DrawerHelpStarted extends StatelessWidget {
   const DrawerHelpStarted({Key? key}) : super(key: key);
@@ -12,13 +12,13 @@ class DrawerHelpStarted extends StatelessWidget {
         children: [
           const Icon(
             Icons.help_outline,
-            color: greyTextShade,
+            color: McAppColors.appGreyShadeColor,
           ),
           const SizedBox(width: 10),
           Text(
             'Help & getting started',
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  color: greyTextShade,
+                  color: McAppColors.appGreyShadeColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -27,7 +27,7 @@ class DrawerHelpStarted extends StatelessWidget {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-              color: bgColor,
+              color: McAppColors.appBgColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
@@ -35,7 +35,7 @@ class DrawerHelpStarted extends StatelessWidget {
                 '>',
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: fieldDMFillText,
+                      color: McAppColors.appTextFieldFillColor,
                     ),
               ),
             ),

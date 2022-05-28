@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
 import 'package:path/path.dart';
 
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
-
 final gStorageProvider = Provider((_) => CloudStorageDatabase());
 
 class CloudStorageDatabase {

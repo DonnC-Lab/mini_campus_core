@@ -1,7 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
 
 final fbMsgProvider = Provider((_) => FbMsgService(_.read));
 
@@ -47,8 +45,10 @@ class FbMsgService {
       if (!sharedPref.isUserSubToTopics()) {
         final student = read(studentProvider);
 
-        await _service
-            .subscribeTopics(NotificationTopic(student: student!).topics);
+        await _service.subscribeTopics(NotificationTopic(
+          student: student!,
+          university: read(studentUniProvider),
+        ).topics);
       }
     } catch (e) {
       debugLogger(e, name: 'FbMsgService-subscribe');

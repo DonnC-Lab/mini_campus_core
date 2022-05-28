@@ -16,6 +16,8 @@ class ProfileStatsCard extends ConsumerWidget {
 
     var student = extStudent ?? currentStudent;
 
+    final studentUni = ref.watch(studentUniProvider);
+
     return Card(
       child: SizedBox(
         width: double.infinity,
@@ -33,7 +35,12 @@ class ProfileStatsCard extends ConsumerWidget {
                   ProfileCardItem(
                     icon: MaterialIcons.calendar_today,
                     title: 'Year',
-                    data: student!.email.studentNumber.stringYear,
+                    data: getStudentNumberFromEmail(
+                      student!.email,
+                      McUniEmailDomain.uniDomains
+                          .firstWhere((uni) => uni.university == studentUni),
+                    )!
+                        .stringYear,
                   ),
                   ProfileCardItem(
                     icon: FontAwesome5Solid.user_graduate,

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
-import 'package:mini_campus_core_libs/mini_campus_core_libs.dart';
 
 class SplashView extends ConsumerWidget {
   const SplashView({
     Key? key,
     required this.drawerModulePages,
+    this.flavorConfigs = const {},
   }) : super(key: key);
 
   final List<DrawerPage> drawerModulePages;
+  final Map<String, dynamic> flavorConfigs;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +25,11 @@ class SplashView extends ConsumerWidget {
 
           if (isCurrentlyLogged == null) {
             routeToWithClear(
-                context, LogInView(drawerModulePages: drawerModulePages));
+                context,
+                LogInView(
+                  drawerModulePages: drawerModulePages,
+                  flavorConfigs: flavorConfigs,
+                ));
           } else {
             ref.watch(fbAppUserProvider.notifier).state = AppFbUser(
               uid: isCurrentlyLogged.uid,
@@ -33,8 +38,12 @@ class SplashView extends ConsumerWidget {
               displayName: isCurrentlyLogged.displayName,
             );
 
-            routeToWithClear(context,
-                ProfileCheckView(drawerModulePages: drawerModulePages));
+            routeToWithClear(
+                context,
+                ProfileCheckView(
+                  drawerModulePages: drawerModulePages,
+                  flavorConfigs: flavorConfigs,
+                ));
           }
         }
       },

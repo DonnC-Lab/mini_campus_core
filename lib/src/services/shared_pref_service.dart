@@ -63,6 +63,8 @@ class SharedPreferencesService {
     await sharedPreferences.setString(_kStudentKey, jsonEncode(_noTimestamp));
   }
 
+  
+
   /// easy way to get currently logged in `cached` student with no state management
   Student? getCachedCurrentStudent() {
     final _cs = sharedPreferences.getString(_kStudentKey);

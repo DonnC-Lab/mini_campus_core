@@ -1,9 +1,8 @@
 // validate student email(s) here
 
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mc_packages/index.dart';
 
 extension ValidateStudentEmail on String {
-  bool get isValidStudentEmail => trim().endsWith(nustEmailDomain);
-
-  bool get isValidStudentEmailAddress => trim().endsWith(nustEmailDomain);
+  bool get isValidStudentEmailAddress => McUniEmailDomain.uniDomains
+      .any((domainUni) => trim().endsWith(domainUni.domain));
 }

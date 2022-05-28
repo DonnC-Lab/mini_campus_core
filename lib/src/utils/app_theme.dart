@@ -1,39 +1,39 @@
 // global app theme
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
+import 'package:mini_campus_core/mini_campus_core.dart';
 
 class AppTheme {
   static TextTheme lightTextTheme = TextTheme(
     bodyText1: GoogleFonts.inter(
       fontSize: 14,
       fontWeight: FontWeight.w700,
-      color: fieldDMFillText,
+      color: McAppColors.appDarkModeFillColor,
     ),
     headline1: GoogleFonts.inter(
       fontSize: 32,
       fontWeight: FontWeight.bold,
-      color: fieldDMFillText,
+      color: McAppColors.appDarkModeFillColor,
     ),
     headline2: GoogleFonts.inter(
       fontSize: 21,
       fontWeight: FontWeight.w700,
-      color: fieldDMFillText,
+      color: McAppColors.appDarkModeFillColor,
     ),
     headline3: GoogleFonts.inter(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      color: fieldDMFillText,
+      color: McAppColors.appDarkModeFillColor,
     ),
     headline6: GoogleFonts.inter(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      color: fieldDMFillText,
+      color: McAppColors.appDarkModeFillColor,
     ),
     button: GoogleFonts.inter(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: bluishColor,
+      color: McAppColors.appMainColor,
     ),
   );
 
@@ -41,50 +41,54 @@ class AppTheme {
     bodyText1: GoogleFonts.inter(
       fontSize: 14,
       fontWeight: FontWeight.w700,
-      color: mainWhite,
+      color: McAppColors.appWhiteColor,
     ),
     headline1: GoogleFonts.inter(
       fontSize: 32,
       fontWeight: FontWeight.bold,
-      color: mainWhite,
+      color: McAppColors.appWhiteColor,
     ),
     headline2: GoogleFonts.inter(
       fontSize: 21,
       fontWeight: FontWeight.w700,
-      color: mainWhite,
+      color: McAppColors.appWhiteColor,
     ),
     headline3: GoogleFonts.inter(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      color: mainWhite,
+      color: McAppColors.appWhiteColor,
     ),
     headline6: GoogleFonts.inter(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      color: mainWhite,
+      color: McAppColors.appWhiteColor,
     ),
     button: GoogleFonts.inter(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: bluishColor,
+      color: McAppColors.appMainColor,
     ),
   );
 
   static ThemeData light() => ThemeData(
         brightness: Brightness.light,
-        scaffoldBackgroundColor: bgColor,
+        scaffoldBackgroundColor: McAppColors.appBgColor,
         textTheme: lightTextTheme,
-        primaryIconTheme: const IconThemeData(color: greyTextShade),
-        buttonTheme: const ButtonThemeData(buttonColor: bluishColor),
-        appBarTheme: const AppBarTheme(color: bluishColor),
+        primaryIconTheme:
+            const IconThemeData(color: McAppColors.appGreyShadeColor),
+        buttonTheme:
+            const ButtonThemeData(buttonColor: McAppColors.appMainColor),
+        appBarTheme: const AppBarTheme(color: McAppColors.appMainColor),
       );
 
   static ThemeData dark() => ThemeData(
         brightness: Brightness.dark,
         textTheme: darkTextTheme,
-        scaffoldBackgroundColor: darkModeMainColor,
-        primaryIconTheme: const IconThemeData(color: greyTextShade),
-        buttonTheme: const ButtonThemeData(buttonColor: bluishColor),
-        appBarTheme: const AppBarTheme(color: bluishColor),
+        scaffoldBackgroundColor: McAppColors.appDarkModeColor,
+        primaryIconTheme:
+            const IconThemeData(color: McAppColors.appGreyShadeColor),
+        buttonTheme:
+            const ButtonThemeData(buttonColor: McAppColors.appMainColor),
+        appBarTheme: const AppBarTheme(color: McAppColors.appMainColor),
       );
 }

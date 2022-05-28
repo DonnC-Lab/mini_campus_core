@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import 'package:mc_core_constants/mc_core_constants.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
 
 class OnboardingView extends ConsumerWidget {
   const OnboardingView({
     Key? key,
     required this.drawerModulePages,
+    this.flavorConfigs = const {},
   }) : super(key: key);
 
   final List<DrawerPage> drawerModulePages;
+  final Map<String, dynamic> flavorConfigs;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,18 +24,22 @@ class OnboardingView extends ConsumerWidget {
       await ref.read(sharedPreferencesServiceProvider).setOnboardingComplete();
 
       routeToWithClear(
-          context, LogInView(drawerModulePages: drawerModulePages));
+          context,
+          LogInView(
+            drawerModulePages: drawerModulePages,
+            flavorConfigs: flavorConfigs,
+          ));
     }
 
     final titleStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
           fontWeight: FontWeight.bold,
           fontSize: 30,
-          color: greyTextShade,
+          color: McAppColors.appGreyShadeColor,
         );
 
     final descStyle = Theme.of(context).textTheme.bodyText2?.copyWith(
           fontSize: 15,
-          color: greyTextShade,
+          color: McAppColors.appGreyShadeColor,
         );
 
     final List<Slide> _slides = [
@@ -43,7 +48,7 @@ class OnboardingView extends ConsumerWidget {
         description:
             "An all-in-one students-only app packed with features that brings convinience and smooth campus life just for you",
         pathImage: "assets/onboarding/students.png",
-        backgroundColor: mainWhite,
+        backgroundColor: McAppColors.appWhiteColor,
         styleTitle: titleStyle,
         heightImage: _imgHeight,
         styleDescription: descStyle,
@@ -53,7 +58,7 @@ class OnboardingView extends ConsumerWidget {
         description:
             "Peer-to-peer sharing of learning materials. Easily find latest revision materials",
         pathImage: "assets/onboarding/learning.png",
-        backgroundColor: mainWhite,
+        backgroundColor: McAppColors.appWhiteColor,
         heightImage: _imgHeight,
         styleTitle: titleStyle,
         styleDescription: descStyle,
@@ -63,7 +68,7 @@ class OnboardingView extends ConsumerWidget {
         description:
             "Keep campus deals afresh with no boundaries, reach out to all campus friends and potential dealers",
         pathImage: "assets/onboarding/market.png",
-        backgroundColor: mainWhite,
+        backgroundColor: McAppColors.appWhiteColor,
         styleTitle: titleStyle,
         heightImage: _imgHeight,
         styleDescription: descStyle,
@@ -73,7 +78,7 @@ class OnboardingView extends ConsumerWidget {
         description:
             "Having a questionnaire? Easily get it filled up by help from peers and much more..",
         pathImage: "assets/onboarding/survey.png",
-        backgroundColor: mainWhite,
+        backgroundColor: McAppColors.appWhiteColor,
         styleTitle: titleStyle,
         heightImage: _imgHeight,
         styleDescription: descStyle,
@@ -84,14 +89,14 @@ class OnboardingView extends ConsumerWidget {
       slides: _slides,
       onDonePress: onDonePress,
       onSkipPress: onDonePress,
-      colorDot: greyTextShade,
-      colorActiveDot: bluishColor,
-      doneButtonStyle:
-          ButtonStyle(backgroundColor: MaterialStateProperty.all(bluishColor)),
-      nextButtonStyle:
-          ButtonStyle(backgroundColor: MaterialStateProperty.all(bluishColor)),
-      skipButtonStyle:
-          ButtonStyle(backgroundColor: MaterialStateProperty.all(bluishColor)),
+      colorDot: McAppColors.appGreyShadeColor,
+      colorActiveDot: McAppColors.appMainColor,
+      doneButtonStyle: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(McAppColors.appMainColor)),
+      nextButtonStyle: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(McAppColors.appMainColor)),
+      skipButtonStyle: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(McAppColors.appMainColor)),
     );
   }
 }
