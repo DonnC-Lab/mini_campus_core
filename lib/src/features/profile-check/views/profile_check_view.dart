@@ -81,7 +81,7 @@ class ProfileCheckView extends ConsumerWidget {
                                   ),
                         ),
                         const SizedBox(height: 20),
-                        const CircularProgressIndicator(),
+                        const CircularProgressIndicator.adaptive(),
                       ],
                     ),
                   ),

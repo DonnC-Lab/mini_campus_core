@@ -65,12 +65,7 @@ class ImageAddPreviewPad extends ConsumerWidget {
                         },
                       ),
                     )
-                  : Center(
-                      child: Image.file(
-                        File(_img.path),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  : Center(child: Image.file(File(_img.path), fit: BoxFit.cover)),
             ),
           ),
         ],

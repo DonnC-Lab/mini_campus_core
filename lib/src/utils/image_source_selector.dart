@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:relative_scale/relative_scale.dart';
 
 /// returns true if camera
 ///
 /// false if gallery
 // ignore: non_constant_identifier_names
-Future<bool?> ImageSourceSelector(BuildContext context) async {
-  return await showMaterialModalBottomSheet<bool?>(
-    context: context,
-    isDismissible: true,
-    useRootNavigator: true,
-    builder: (context) =>
-        RelativeBuilder(builder: (context, height, width, sy, sx) {
-      return SizedBox(
+Future<bool?> ImageSourceSelector(BuildContext context) async =>
+    await showMaterialModalBottomSheet<bool?>(
+      context: context,
+      isDismissible: true,
+      useRootNavigator: true,
+      builder: (context) => SizedBox(
         height: 100,
         width: double.infinity,
-        // margin: const EdgeInsets.all(10),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           body: Padding(
@@ -47,7 +43,5 @@ Future<bool?> ImageSourceSelector(BuildContext context) async {
             ),
           ),
         ),
-      );
-    }),
-  );
-}
+      ),
+    );

@@ -8,9 +8,10 @@ import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart' as path;
 
 import '../index.dart';
+import 'deta_abstract_repository.dart';
 import 'exc_handler.dart';
 
-class DetaRepository {
+class DetaRepository extends DetaRepositoryImp {
   static final _cache = FileCacheService();
 
   late final Dio _dio;
@@ -27,10 +28,7 @@ class DetaRepository {
   DetaRepository({required this.detaBaseUrl, this.driveName, this.baseName})
       : _dio = Dio(BaseOptions(baseUrl: detaBaseUrl));
 
-  String _getFileExt(String filename) {
-    return path.extension(filename).replaceAll('.', '').trim();
-  }
-
+  @override
   Future queryBase({Map? query}) async {
     try {
       final res = await _dio.post(
@@ -49,6 +47,7 @@ class DetaRepository {
     }
   }
 
+  @override
   Future addBaseData(Map payload, {String key = ''}) async {
     try {
       final res = await _dio.post(
@@ -67,7 +66,7 @@ class DetaRepository {
     }
   }
 
-  // TODO: proper implentation
+  @override
   Future deleteBaseData(Map payload, {String? key}) async {
     try {
       final res = await _dio.delete(
@@ -91,8 +90,12 @@ class DetaRepository {
   /// filename is passed must be unique else, existing file will be overwritten
   ///
   /// `directory` - folder to put the file in deta drive e.g home/images/
-  Future uploadFile(String filePath,
-      {String? directory, String? filename}) async {
+  @override
+  Future uploadFile(
+    String filePath, {
+    String? directory,
+    String? filename,
+  }) async {
     try {
       var ext = path.extension(filePath).trim();
 
@@ -128,8 +131,8 @@ class DetaRepository {
   /// filename is as received while performing [uploadFile]
   ///
   /// returns [File] on successful
+  @override
   Future downloadFile(String fileName) async {
-    // check cache first
     final cached = await _cache.getFileCache(fileName);
 
     if (cached != null) {
@@ -145,8 +148,8 @@ class DetaRepository {
       if (fileBytesResp.statusCode == 200) {
         final fBytes = Uint8List.fromList(fileBytesResp.data);
 
-        final cachedFile =
-            await _cache.addFileCache(fileName, fBytes, _getFileExt(fileName));
+        final cachedFile = await _cache.addFileCache(
+            fileName, fBytes, path.extension(fileName));
 
         return cachedFile;
       }
@@ -172,6 +175,7 @@ class DetaRepository {
   ///     "message": ["file1", "file2", ...]
   /// }
   /// ```
+  @override
   Future listFiles({
     int limit = 1000,
     String prefix = '',
@@ -180,7 +184,8 @@ class DetaRepository {
     var _prefix = Uri.encodeComponent(prefix);
     try {
       final resp = await _dio.get(
-          '/file-api/files/?drive_name=$driveName&limit=$limit&prefix=$_prefix&last=$last');
+        '/file-api/files/?drive_name=$driveName&limit=$limit&prefix=$_prefix&last=$last',
+      );
 
       if (resp.statusCode == 200) {
         return resp.data['message'];
@@ -194,6 +199,7 @@ class DetaRepository {
   }
 
   /// delete drive file
+  @override
   Future deleteFiles(String filename) async {
     try {
       final resp = await _dio
@@ -202,10 +208,7 @@ class DetaRepository {
       if (resp.statusCode == 200) {
         return resp.data;
       }
-    }
-
-    //ee
-    catch (e) {
+    } catch (e) {
       return detaRepositoryExceptionHandler(e);
     }
   }

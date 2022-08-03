@@ -7,6 +7,6 @@ modalLoader(BuildContext context) {
   // ? add a loader message
   showDialog(
     context: context,
-    builder: (_) => const Center(child: CircularProgressIndicator()),
+    builder: (_) => const Center(child: CircularProgressIndicator.adaptive()),
   );
 }

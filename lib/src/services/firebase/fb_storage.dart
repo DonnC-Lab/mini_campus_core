@@ -11,40 +11,6 @@ final gStorageProvider = Provider((_) => CloudStorageDatabase());
 class CloudStorageDatabase {
   final _service = FirebaseStorageService.instance;
 
-  /// upload media file
-  ///
-  /// usually image file to path e.g profile/user123
-  Future<String?> uploadMediaFile(
-      {required String image, required String path}) async {
-    try {
-      final String fname = basename(image);
-
-      String _fullCloudFilePath = path + '/' + fname;
-
-      debugLogger(_fullCloudFilePath);
-
-      var imageUrl = await _service.uploadFile(
-          file: File(image), path: _fullCloudFilePath);
-
-      debugLogger(imageUrl, name: 'uploadMediaFile');
-
-      return imageUrl;
-    }
-
-    // fb err
-    on firebase_core.FirebaseException catch (e) {
-      debugLogger(e.message, error: e, name: 'uploadMediaFile FbExec');
-
-      return null;
-    }
-
-    // err
-    catch (e) {
-      debugLogger(e, error: e, name: 'uploadMediaFile Err');
-      return null;
-    }
-  }
-
   /// upload multiple images
   ///
   /// return uploaded files download urls
@@ -53,15 +19,11 @@ class CloudStorageDatabase {
     required String path,
   }) async {
     try {
-      // compress image first, then attempt uploading
-      var imageUrls = await Future.wait(images.map((_image) {
-        final String fname = basename(_image);
-
-        String _fullCloudFilePath = path + '/$fname';
-
-        return _service.uploadFile(
-            file: File(_image), path: _fullCloudFilePath);
-      }));
+      var imageUrls =
+          await Future.wait(images.map((_image) => _service.uploadFile(
+                file: File(_image),
+                path: path + '/${basename(_image)}',
+              )));
 
       debugLogger(imageUrls, name: 'uploadMultipleMediaFile');
 
@@ -71,41 +33,34 @@ class CloudStorageDatabase {
     // fb err
     on firebase_core.FirebaseException catch (e) {
       debugLogger(e.message);
-      return images;
+      return const [];
     }
 
     // err
     catch (e) {
       debugLogger(e.toString());
-      return images;
+      return const [];
     }
   }
 
   Future<void> deleteMediaFile({required String path}) async {
     try {
       await _service.deleteFile(path: path);
-    }
-
-    // fb err
-    on firebase_core.FirebaseException catch (e) {
+    } on firebase_core.FirebaseException catch (e) {
       debugLogger(e.message);
-    }
-
-    // err
-    catch (e) {
+    } catch (e) {
       debugLogger(e.toString());
     }
   }
 
   /// delete all ad files
-  Future deleteAllAdFiles({required List<String> imagesUrl}) async {
+  Future<void> deleteMultipleFilesFromUrl(
+      {required List<String> imagesUrl}) async {
     try {
-      await Future.wait(
-          imagesUrl.map((url) => _service.deleteAdFile(url: url)).toList());
-    }
-
-    //
-    catch (e) {
+      await Future.wait(imagesUrl
+          .map((url) => _service.deleteFileFromUrl(url: url))
+          .toList());
+    } catch (e) {
       debugLogger(e.toString());
     }
   }

@@ -23,8 +23,8 @@ class FileCacheService {
         maxAge: expireAfter,
       );
 
+  // key == filename
   Future<File?> getFileCache(String fname) async {
-    // key == filename
     final res = await _cacheManager.getFileFromCache(fname);
 
     return res?.file;

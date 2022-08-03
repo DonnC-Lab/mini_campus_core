@@ -17,10 +17,8 @@ class DetaStorageRepository {
 
   late final DetaRepository _detaRepository;
 
-  final Reader _read;
-
   DetaStorageRepository(
-    this._read,
+    Reader _read,
     this.detaDriveInit,
   ) : _detaRepository = DetaRepository(
           driveName: detaDriveInit.drive,

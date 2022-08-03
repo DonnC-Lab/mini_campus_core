@@ -36,7 +36,7 @@ class CustomProfileAvatar extends ConsumerWidget {
                         : const SizedBox.shrink();
                   },
                   error: (e, st) => const SizedBox.shrink(),
-                  loading: () => const CircularProgressIndicator(),
+                  loading: () => const CircularProgressIndicator.adaptive(),
                 );
   }
 }

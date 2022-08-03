@@ -22,10 +22,7 @@ class NotificationTopic {
 
   late List<String> _topics;
 
-  NotificationTopic({
-    required this.student,
-    this.university = Uni.NUST,
-  }) {
+  NotificationTopic({required this.student, this.university = Uni.NUST}) {
     _topics = [];
     _computeTopics();
   }

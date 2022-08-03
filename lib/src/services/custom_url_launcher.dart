@@ -45,7 +45,7 @@ void customUrlLauncher(String? url) async {
     final bool c = await canLaunchUrl(Uri.parse(url));
 
     if (c) {
-      launchUrl(Uri.parse(url));
+     await launchUrl(Uri.parse(url));
     }
   }
 }

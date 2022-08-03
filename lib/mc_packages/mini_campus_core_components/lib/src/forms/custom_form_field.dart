@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../index.dart';
 
@@ -33,48 +32,44 @@ Widget CustomFormField({
   Widget suffixIcon = const SizedBox.shrink(),
   Widget? prefixIcon,
 }) {
-  return RelativeBuilder(
-    builder: (context, height, width, sy, sx) {
-      return Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            title == null
-                ? const SizedBox.shrink()
-                : Text(title, style: titleTextStyle(context)),
-            customTextField(
-              formName: formName,
-              context: context,
-              controller: controller,
-              hintText: hintText,
-              maxLength: maxLength,
-              maxLines: maxLines,
-              autoFocus: autoFocus,
-              obscureText: obscureText,
-              prefixIcon: prefixIcon,
-              readOnly: readOnly,
-              errorString: validateError,
-              validator: validator,
-              labelText: labelText,
-              enforceLength: enforceLength,
-              unfocus: unfocus,
-              focusNode: focusNode,
-              suffixIcon: suffixIcon,
-              keyboardType: keyboardType,
-              initialText: initialText,
-              customOnChangeCallback: customOnChangeCallback,
-              filled: filled,
-              themeMode: themeMode,
-            ),
-          ],
+  return Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        title == null
+            ? const SizedBox.shrink()
+            : Text(title, style: titleTextStyle(context)),
+        _customTextField(
+          formName: formName,
+          context: context,
+          controller: controller,
+          hintText: hintText,
+          maxLength: maxLength,
+          maxLines: maxLines,
+          autoFocus: autoFocus,
+          obscureText: obscureText,
+          prefixIcon: prefixIcon,
+          readOnly: readOnly,
+          errorString: validateError,
+          validator: validator,
+          labelText: labelText,
+          enforceLength: enforceLength,
+          unfocus: unfocus,
+          focusNode: focusNode,
+          suffixIcon: suffixIcon,
+          keyboardType: keyboardType,
+          initialText: initialText,
+          customOnChangeCallback: customOnChangeCallback,
+          filled: filled,
+          themeMode: themeMode,
         ),
-      );
-    },
+      ],
+    ),
   );
 }
 
-Widget customTextField({
+Widget _customTextField({
   TextEditingController? controller,
   required BuildContext context,
   FocusNode? focusNode,
@@ -107,7 +102,7 @@ Widget customTextField({
         data: Theme.of(context).copyWith(
           colorScheme: ThemeData()
               .colorScheme
-              .copyWith(primary: McAppColors.appGreyShadeColor),
+              .copyWith(primary: Theme.of(context).primaryIconTheme.color),
         ),
         child: FormBuilderTextField(
           name: formName!,

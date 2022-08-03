@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,8 +19,6 @@ class SharedPreferencesService {
 
   static const _kUserFCMTokenKey = 'kUserFCMToken';
 
-  static const _kTopicSetKey = 'kUserTopics';
-
   static const _kStudentKey = 'kStudent';
 
   Future<void> setOnboardingComplete() async {
@@ -29,12 +27,6 @@ class SharedPreferencesService {
 
   bool isOnboardingComplete() =>
       sharedPreferences.getBool(_kOnboardingCompleteKey) ?? false;
-
-  Future<void> setTopicSubSetting() async {
-    await sharedPreferences.setBool(_kTopicSetKey, true);
-  }
-
-  bool isUserSubToTopics() => sharedPreferences.getBool(_kTopicSetKey) ?? false;
 
   Future<void> setUserFcmToken(String token) async {
     await sharedPreferences.setString(_kUserFCMTokenKey, token);
@@ -62,8 +54,6 @@ class SharedPreferencesService {
 
     await sharedPreferences.setString(_kStudentKey, jsonEncode(_noTimestamp));
   }
-
-  
 
   /// easy way to get currently logged in `cached` student with no state management
   Student? getCachedCurrentStudent() {

@@ -12,9 +12,7 @@ class FirebaseStorageService {
       firebase_storage.FirebaseStorage.instance;
 
   Future<String> uploadFile({required File file, required String path}) async {
-    final storageRef = _storage.ref();
-
-    final fileRef = storageRef.child(path);
+    final fileRef = _storage.ref().child(path);
 
     await fileRef.putFile(file);
 
@@ -27,7 +25,7 @@ class FirebaseStorageService {
     await _storage.ref().child(path).delete();
   }
 
-  Future<void> deleteAdFile({required String url}) async {
+  Future<void> deleteFileFromUrl({required String url}) async {
     await _storage.refFromURL(url).delete();
   }
 }

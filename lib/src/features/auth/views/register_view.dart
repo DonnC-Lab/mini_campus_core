@@ -49,6 +49,10 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
         setState(() {
           isEmailValid = true;
         });
+      } else {
+        setState(() {
+          isEmailValid = false;
+        });
       }
     });
   }

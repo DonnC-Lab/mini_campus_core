@@ -11,10 +11,8 @@ class FlashDialog {
   static const _bgColor = Colors.black87;
 
   void customSnackBar(BuildContext context, String mesg, {Color? bgColor}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(mesg),
-      backgroundColor: _bgColor,
-    ));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(mesg), backgroundColor: _bgColor));
   }
 
   void showToast(String mesg) {
@@ -51,10 +49,10 @@ class FlashDialog {
             ),
             content: Text(
               mesg,
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                    fontSize: 12,
-                    color: _bgColor,
-                  ),
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(fontSize: 12, color: _bgColor),
             ),
             //showProgressIndicator: true,
             primaryAction: TextButton(
@@ -90,18 +88,17 @@ class FlashDialog {
         ),
         content: Text(
           mesg,
-          style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                fontSize: 13,
-                color: _bgColor,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              ?.copyWith(fontSize: 13, color: _bgColor),
         ),
         negativeActionBuilder: (context, controller, _) {
           return TextButton(
-            onPressed: () {
-              controller.dismiss(false);
-            },
-            child: Text(cancelButtonText),
-          );
+              onPressed: () {
+                controller.dismiss(false);
+              },
+              child: Text(cancelButtonText));
         },
         positiveActionBuilder: (context, controller, _) {
           return TextButton(
@@ -134,10 +131,10 @@ class FlashDialog {
           child: FlashBar(
             content: Text(
               mesg,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 12,
-                    color: _bgColor,
-                  ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(fontSize: 12, color: _bgColor),
             ),
           ),
         );

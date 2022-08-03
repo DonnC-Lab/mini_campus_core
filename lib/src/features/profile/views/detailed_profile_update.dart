@@ -72,7 +72,8 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                                 child: updatingProfile
                                     ? const Padding(
                                         padding: EdgeInsets.all(12.0),
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
                                       )
                                     : IconButton(
                                         onPressed: !_isOwner
@@ -93,15 +94,15 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                                                     });
 
                                                     // upload img to cloud
-                                                    final String? imgUrl =
-                                                        await storageApi.uploadMediaFile(
-                                                            image: img.path,
+                                                    final imgUrls = await storageApi
+                                                        .uploadMultipleMediaFile(
+                                                            images: [img.path],
                                                             path: CloudStoragePath
                                                                 .profilePicture(
                                                                     student!
                                                                         .id!));
 
-                                                    if (imgUrl != null) {
+                                                    if (imgUrls.isNotEmpty) {
                                                       _dialog.showToast(
                                                           'profile image uploaded');
 
@@ -110,7 +111,8 @@ class _DetailedProfileViewState extends ConsumerState<DetailedProfileView> {
                                                           .updateStudent(
                                                               student.copyWith(
                                                                   profilePicture:
-                                                                      imgUrl));
+                                                                      imgUrls
+                                                                          .first));
                                                     } else {
                                                       _dialog.showToast(
                                                           'failed to upload profile image');

@@ -59,7 +59,7 @@ class SplashView extends ConsumerWidget {
             Center(child: LogoBox(themeMode: themeMode)),
             const Padding(
                 padding: EdgeInsets.all(12.0),
-                child: CircularProgressIndicator()),
+                child: CircularProgressIndicator.adaptive()),
           ],
         ),
       )),

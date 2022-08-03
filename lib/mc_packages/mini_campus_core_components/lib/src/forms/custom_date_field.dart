@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../index.dart';
 
@@ -30,44 +29,40 @@ Widget CustomDateField({
   Widget suffixIcon = const SizedBox.shrink(),
   InputType inputType = InputType.date,
 }) {
-  return RelativeBuilder(
-    builder: (context, height, width, sy, sx) {
-      return Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            title == null
-                ? const SizedBox.shrink()
-                : Text(title, style: titleTextStyle(context)),
-            customDateField(
-              formName: formName,
-              context: context,
-              controller: controller,
-              hintText: hintText,
-              maxLines: maxLines,
-              autoFocus: autoFocus,
-              format: format,
-              inputType: inputType,
-              obscureText: obscureText,
-              readOnly: readOnly,
-              validator: validator,
-              labelText: labelText,
-              enforceLength: enforceLength,
-              unfocus: unfocus,
-              suffixIcon: suffixIcon,
-              keyboardType: keyboardType,
-              initialText: initialText,
-              customOnChangeCallback: customOnChangeCallback,
-            ),
-          ],
+  return Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        title == null
+            ? const SizedBox.shrink()
+            : Text(title, style: titleTextStyle(context)),
+        _customDateField(
+          formName: formName,
+          context: context,
+          controller: controller,
+          hintText: hintText,
+          maxLines: maxLines,
+          autoFocus: autoFocus,
+          format: format,
+          inputType: inputType,
+          obscureText: obscureText,
+          readOnly: readOnly,
+          validator: validator,
+          labelText: labelText,
+          enforceLength: enforceLength,
+          unfocus: unfocus,
+          suffixIcon: suffixIcon,
+          keyboardType: keyboardType,
+          initialText: initialText,
+          customOnChangeCallback: customOnChangeCallback,
         ),
-      );
-    },
+      ],
+    ),
   );
 }
 
-Widget customDateField({
+Widget _customDateField({
   TextEditingController? controller,
   required BuildContext context,
   TextInputType? keyboardType,
@@ -103,8 +98,8 @@ Widget customDateField({
         transitionBuilder: (context, child) {
           return Theme(
             data: ThemeData.light().copyWith(
-                colorScheme: const ColorScheme.light()
-                    .copyWith(primary: McAppColors.appMainColor)),
+                colorScheme: const ColorScheme.light().copyWith(
+                    primary: Theme.of(context).appBarTheme.backgroundColor)),
             child: child!,
           );
         },

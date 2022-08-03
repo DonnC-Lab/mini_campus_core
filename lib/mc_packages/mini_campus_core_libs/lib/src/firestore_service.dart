@@ -5,28 +5,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
+  static final _fbInstance = FirebaseFirestore.instance;
 
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
     bool merge = false,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    await reference.set(data, SetOptions(merge: merge));
+    await _fbInstance.doc(path).set(data, SetOptions(merge: merge));
   }
 
-  Future addData(
-      {required String collectionName,
-      required Map<String, dynamic> data}) async {
-    final reference = FirebaseFirestore.instance.collection(collectionName);
-    final _res = await reference.add(data);
+  Future addData({
+    required String collectionName,
+    required Map<String, dynamic> data,
+  }) async {
+    final _res = await _fbInstance.collection(collectionName).add(data);
     return _res.id;
   }
 
   Future<void> deleteData({required String path}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    
-    await reference.delete();
+    await _fbInstance.doc(path).delete();
   }
 
   Future<void> addToArray({
@@ -34,10 +32,8 @@ class FirestoreService {
     required String data,
     required String fieldName,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-
-    await reference.update({
-      fieldName: FieldValue.arrayUnion([data]),
+    await _fbInstance.doc(path).update({
+      fieldName: FieldValue.arrayUnion([data])
     });
   }
 
@@ -46,34 +42,28 @@ class FirestoreService {
     required String data,
     required String fieldName,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-
-    await reference.update({
+    await _fbInstance.doc(path).update({
       fieldName: FieldValue.arrayRemove([data]),
     });
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getData(
-      {required String path}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    return await reference.get();
-  }
+  Future<DocumentSnapshot<Map<String, dynamic>>> getData({
+    required String path,
+  }) async =>
+      await _fbInstance.doc(path).get();
 
-  
   Future<QuerySnapshot<Map<String, dynamic>>> getPathSubCollectionData({
     required String path,
     required String subcollectionName,
+  }) async =>
+      await _fbInstance.doc(path).collection(subcollectionName).get();
+
+  Future<void> deletePathSubCollectionData({
+    required String path,
+    required String subcollectionName,
   }) async {
-    final ref =
-        await FirebaseFirestore.instance.doc(path).collection(subcollectionName).get();
-    return ref;
-  }
-
-  Future<void> deletePathSubCollectionData({required String path,   required String subcollectionName,}) async {
-    final subCollec =
-        FirebaseFirestore.instance.doc(path).collection(subcollectionName);
-
-    final snaps = await subCollec.get();
+    final snaps =
+        await _fbInstance.doc(path).collection(subcollectionName).get();
 
     for (var subData in snaps.docs) {
       await subData.reference.delete();
@@ -87,8 +77,7 @@ class FirestoreService {
         queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {
-    Query<Map<String, dynamic>> query =
-        FirebaseFirestore.instance.collection(path);
+    Query<Map<String, dynamic>> query = _fbInstance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query)!;
     }
@@ -111,11 +100,9 @@ class FirestoreService {
     required T Function(Map<String, dynamic>? data, String documentID) builder,
   }) {
     final DocumentReference<Map<String, dynamic>> reference =
-        FirebaseFirestore.instance.doc(path);
+        _fbInstance.doc(path);
     final Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots =
         reference.snapshots();
-
-    
 
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }

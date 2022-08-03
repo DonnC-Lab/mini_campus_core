@@ -8,8 +8,6 @@ final pickedImgProvider = StateProvider<XFile?>((_) => null);
 Future<void> customImgPicker(WidgetRef ref, bool isCamera) async {
   final _picker = ImagePicker();
 
-  String error = 'No Error Detected';
-
   // todo: consider picking multiple images too
 
   try {
@@ -19,12 +17,8 @@ Future<void> customImgPicker(WidgetRef ref, bool isCamera) async {
     );
 
     ref.read(pickedImgProvider.notifier).state = resultImg;
-  }
-
-  //
-  catch (e) {
-    error = e.toString();
+  } catch (e) {
     ref.invalidate(pickedImgProvider);
-    debugLogger(error, name: 'customImgPicker', error: e);
+    debugLogger(e, name: 'customImgPicker', error: e);
   }
 }

@@ -12,32 +12,24 @@ class FirebaseRtdbService {
   ///
   /// with user defined doc key | id
   Future<void> addData(
-      {required String path, required Map<String, dynamic> data}) async {
-    final ref = _dbInstance.ref(path);
-
-    await ref.set(data);
-  }
+          {required String path, required Map<String, dynamic> data}) async =>
+      await _dbInstance.ref(path).set(data);
 
   /// get data: path e.g: "users/123"
-  Future<DataSnapshot> getData({required String path}) async {
-    final ref = _dbInstance.ref(path);
+  Future<DataSnapshot> getData({required String path}) async =>
+      await _dbInstance.ref(path).get();
 
-    return await ref.get();
-  }
+  /// get data once off: first X items to search from
+  Future<DataSnapshot> getDataOnceOff({
+    required String path,
+    int limitToFirst = 50,
+  }) async =>
+      await _dbInstance.ref().child(path).limitToFirst(limitToFirst).get();
 
-  /// get data once off: first 500 items to search from
-  Future<DataSnapshot> getDataOnceOff(
-      {required String path, int limitToFirst = 500}) async {
-    final ref = _dbInstance.ref().child(path).limitToFirst(limitToFirst);
-
-    return await ref.get();
-  }
-
-  /// set data: path e.g: "users" with unique auto gen id
-  ///
-  ///
-  Future<void> setData(
-      {required String path, required Map<String, dynamic> data}) async {
+  Future<void> setData({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
     await _dbInstance.ref().child(path).push().set(data);
   }
 
@@ -51,12 +43,13 @@ class FirebaseRtdbService {
   ///  "123/address/line1": "1 Mountain View",
   ///});
   ///```
-  Future<void> updateData(
-      {required String path, required Map<String, dynamic> data}) async {
+  Future<void> updateData({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
     await _dbInstance.ref().child(path).update(data);
   }
 
-  /// remove doc at path e.g "posts/1"
   Future<void> deleteData({required String path}) async {
     await _dbInstance.ref().child(path).remove();
   }

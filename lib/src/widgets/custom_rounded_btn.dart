@@ -35,10 +35,7 @@ class CustomRoundedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius),
         ),
-        fixedSize: Size(
-          MediaQuery.of(context).size.width * widthRatio,
-          height,
-        ),
+        fixedSize: Size(MediaQuery.of(context).size.width * widthRatio, height),
       ),
       onPressed: onTap,
       child: Text(

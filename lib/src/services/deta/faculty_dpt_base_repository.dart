@@ -1,16 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mini_campus_core/mini_campus_core.dart';
+
 final fDptRepProvider = Provider((_) => FacultyDptBaseRepository(_.read));
 
 /// deta base repository
 class FacultyDptBaseRepository {
   late final DetaRepository _detaRepository;
 
-  final Reader _read;
-
-  FacultyDptBaseRepository(this._read)
+  FacultyDptBaseRepository(Reader _read)
       : _detaRepository = DetaRepository(
-          baseName: DetaBases.facultyDpt,
+          baseName: DetaBases.kFacultyDptCollection,
           detaBaseUrl: _read(flavorConfigProvider)['detaBaseUrl'],
         );
 

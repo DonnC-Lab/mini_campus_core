@@ -8,17 +8,19 @@ class StatusContainer extends StatelessWidget {
     this.state = false,
     this.activeText = 'Active',
     this.deactiveText = 'Deactive',
+    this.width = 60.0,
   }) : super(key: key);
 
   final bool state;
   final String activeText;
   final String deactiveText;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
-      width: 60,
+      height: width / 2,
+      width: width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
           color: state

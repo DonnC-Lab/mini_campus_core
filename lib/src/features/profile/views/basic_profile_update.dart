@@ -183,7 +183,8 @@ class BasicProfileUpdateView extends ConsumerWidget {
 
                                   //
                                   else {
-                                    return const CircularProgressIndicator();
+                                    return const CircularProgressIndicator
+                                        .adaptive();
                                   }
                                 })
                             : const SizedBox.shrink(),

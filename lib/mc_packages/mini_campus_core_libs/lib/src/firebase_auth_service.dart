@@ -1,79 +1,45 @@
 library firebase_auth_service;
 
-import 'dart:developer';
+import 'dart:developer' show log;
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'utilities/index.dart';
-
-/// firebase auth service provider
-final fbAuthProvider = Provider((_) => FirebaseAuthService());
-
-final fbAuthUserStreamProvider = AutoDisposeStreamProvider((ref) {
-  final auth = ref.read(fbAuthProvider);
-
-  return auth.authStateChanges();
-});
 
 /// general auth service, returns [CustomException] on exception
 class FirebaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  AppFbUser get currentUser =>
-      AppFbUser.fromFirebaseUser(_firebaseAuth.currentUser!);
-
   User? get checkCurrentUser => _firebaseAuth.currentUser;
 
-  Stream<AppFbUser?> authStateChanges() {
-    return _firebaseAuth
-        .authStateChanges()
-        .map((user) => user == null ? null : AppFbUser.fromFirebaseUser(user));
-  }
+  AppFbUser get currentUser => AppFbUser.fromFirebaseUser(checkCurrentUser!);
 
-  
-  Future<AppFbUser> _signInAnonymously() async {
-    final userCredential = await _firebaseAuth.signInAnonymously();
-    return AppFbUser.fromFirebaseUser(userCredential.user!);
-  }
+  Stream<AppFbUser?> authStateChanges() => _firebaseAuth
+      .authStateChanges()
+      .map((user) => user == null ? null : AppFbUser.fromFirebaseUser(user));
 
   /// returns [AppFbUser] on success else [CustomException]
-  Future signInWithEmailAndPassword(String email, String password,
-      {bool isValidStudentEmail = true}) async {
+  Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      if (isValidStudentEmail) {
-        final userCredential = await _firebaseAuth.signInWithCredential(
-          EmailAuthProvider.credential(
-            email: email,
-            password: password,
-          ),
-        );
+      final userCredential = await _firebaseAuth.signInWithCredential(
+          EmailAuthProvider.credential(email: email, password: password));
 
-        await userCredential.user?.reload();
+      await userCredential.user?.reload();
 
-        final currentUser = await _firebaseAuth.authStateChanges().first;
+      final currentUser = await _firebaseAuth.authStateChanges().first;
 
-        // check if email is verified
-        if (currentUser!.emailVerified) {
-          return AppFbUser.fromFirebaseUser(userCredential.user!);
-        }
-
-        //
-        else {
-          await currentUser.sendEmailVerification();
-
-          return CustomException(
-            message:
-                'Email provided not verified. A verification link has been sent to your email, check your email to complete process',
-          );
-        }
+      // check if email is verified
+      if (currentUser!.emailVerified) {
+        return AppFbUser.fromFirebaseUser(userCredential.user!);
       }
 
-      // not uni email
+      //
       else {
+        await currentUser.sendEmailVerification();
+
         return CustomException(
-          message: 'Email provided not a valid student email!',
-        );
+            message:
+                'Email provided not verified. A verification link has been sent to your email, check your email to complete process');
       }
     }
 
@@ -91,21 +57,11 @@ class FirebaseAuthService {
     }
   }
 
-  Future registerNewUser(String email, String password,
-      {bool isValidStudentEmail = true}) async {
+  Future registerNewUser(String email, String password) async {
     try {
-      if (isValidStudentEmail) {
-        final userCredential = await _firebaseAuth
-            .createUserWithEmailAndPassword(email: email, password: password);
-        return AppFbUser.fromFirebaseUser(userCredential.user!);
-      }
-
-      // not uni email
-      else {
-        return CustomException(
-          message: 'Email provided not a valid student email!',
-        );
-      }
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return AppFbUser.fromFirebaseUser(userCredential.user!);
     }
 
     // fb err
@@ -141,7 +97,5 @@ class FirebaseAuthService {
     }
   }
 
-  Future signOut() async {
-    return _firebaseAuth.signOut();
-  }
+  Future signOut() async => _firebaseAuth.signOut();
 }

@@ -3,9 +3,5 @@ class ExcHandler {
   final String logName;
   final String? topic;
 
-  ExcHandler({
-    required this.exception,
-    this.logName = 'exceptionHandler',
-    this.topic,
-  });
+  ExcHandler({required this.exception, this.logName = 'exceptionHandler', this.topic});
 }

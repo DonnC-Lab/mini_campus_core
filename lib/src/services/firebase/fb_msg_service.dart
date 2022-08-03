@@ -10,6 +10,7 @@ class FbMsgService {
 
   FbMsgService(this.read);
 
+  /// get & set token if not present & sub to topics
   Future getToken() async {
     final sharedPref = read(sharedPreferencesServiceProvider);
 
@@ -17,42 +18,26 @@ class FbMsgService {
       String cachedToken = sharedPref.userCachedToken();
 
       if (cachedToken.isEmpty) {
-        var t = await _service.getUserToken();
+        final String t = await _service.getUserToken() ?? '';
 
         if (t == cachedToken) {
           return;
         }
 
         // add token
-        await read(studentStoreProvider).addNotificationToken(t!);
+        await read(studentStoreProvider).addNotificationToken(t);
 
         // set new
         await sharedPref.setUserFcmToken(t);
 
         // subscribe to topics also
-        await subscribe();
-      }
-    } catch (e) {
-      debugLogger(e, error: e, name: 'getToken');
-      return null;
-    }
-  }
-
-  Future<void> subscribe() async {
-    final sharedPref = read(sharedPreferencesServiceProvider);
-
-    try {
-      if (!sharedPref.isUserSubToTopics()) {
-        final student = read(studentProvider);
-
         await _service.subscribeTopics(NotificationTopic(
-          student: student!,
+          student: read(studentProvider)!,
           university: read(studentUniProvider),
         ).topics);
       }
     } catch (e) {
-      debugLogger(e, name: 'FbMsgService-subscribe');
-      return;
+      debugLogger(e, error: e, name: 'getToken');
     }
   }
 }

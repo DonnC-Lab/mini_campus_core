@@ -1,6 +1,6 @@
 import 'dart:developer' show log;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kReleaseMode;
 
 /// only show logs in debug mode
 void debugLogger(

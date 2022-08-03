@@ -1,5 +1,7 @@
 library fbmessaging_service;
 
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FbMessagingService {
@@ -8,14 +10,15 @@ class FbMessagingService {
 
   static final _instance = FirebaseMessaging.instance;
 
-  Future<String?> getUserToken() async {
-    return await _instance.getToken();
-  }
+  Future<String?> getUserToken() async => await _instance.getToken();
 
-  /// final topics = NotificationTopic(student: student).topics;
   Future<void> subscribeTopics(List<String> topics) async {
-    for (var topic in topics) {
-      await _instance.subscribeToTopic(topic);
+    try {
+      final _subFutures =
+          topics.map((topic) => _instance.subscribeToTopic(topic)).toList();
+      await Future.wait(_subFutures);
+    } catch (e) {
+      log('[subscribeTopics] failed to subscribe');
     }
   }
 
